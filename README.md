@@ -1,4 +1,4 @@
-# ComposeUI 🚀
+<h1 align="center">ComposeUI 🔳</h1>
 
 > A customizable, composable component library focused on Developer Experience 💻
 
