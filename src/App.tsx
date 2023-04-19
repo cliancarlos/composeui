@@ -26,7 +26,7 @@ export default function App(): any {
                     padding="px-0.5 py-0.5"
                     margin="mx-2"
                     border="rounded-xl"
-                    color="text-violet-500"
+                    color="text-violet-400"
                     all="font-medium"
                   >
                     <div>
