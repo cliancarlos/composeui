@@ -1,47 +1,69 @@
 import React from 'react';
 
+type TailwindClass = string;
+
 interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
-  all?: string;
+  all?: TailwindClass;
   // alignment, spacing, and padding
-  flex?: string;
-  align?: string;
-  justify?: string;
-  place?: string; // is justify and align some time
-  gap?: string;
-  margin?: string;
-  padding?: string;
+  flex?: TailwindClass;
+  align?: TailwindClass;
+  justify?: TailwindClass;
+  place?: TailwindClass; // is justify and align some time
+  gap?: TailwindClass;
+  margin?: TailwindClass;
+  padding?: TailwindClass;
   // sizing
-  size?: string;
+  size?: TailwindClass;
   // typography
-  family?: string;
-  fontStyles?: string; // italitc, smoothing, //underline, //transform, //whitespace
-  weight?: string;
-  fontNumeric?: string;
-  letterSpacing?: string;
-  line?: string; // clamp, height
-  textAlign?: string; // + vertical align
-  textDecoration?: string;
-  textOverflow?: string; // overflow, word break, hipens
-  textIndent?: string;
-  color?: string;
-  pseudo?: string; // Content (::after ::before)
+  family?: TailwindClass;
+  fontStyles?: TailwindClass; // italitc, smoothing, //underline, //transform, //whitespace
+  weight?: TailwindClass;
+  fontNumeric?: TailwindClass;
+  letterSpacing?: TailwindClass;
+  line?: TailwindClass; // clamp, height
+  textAlign?: TailwindClass; // + vertical align
+  textDecoration?: TailwindClass;
+  textOverflow?: TailwindClass; // overflow, word break, hipens
+  textIndent?: TailwindClass;
+  color?: TailwindClass;
+  pseudo?: TailwindClass; // Content (::after ::before)
   // background
-  bg?: string;
+  bg?: TailwindClass;
   //border
-  border?: string;
+  border?: TailwindClass;
   // effects
-  effects?: string;
+  effects?: TailwindClass;
   // filters
-  filters?: string;
+  filters?: TailwindClass;
   // transitions, animation, transform
-  transitions?: string;
-  animation?: string;
-  transform?: string;
+  transitions?: TailwindClass;
+  animation?: TailwindClass;
+  transform?: TailwindClass;
   //interactivy
-  scroll?: string;
-  pointer?: string; // cursor, caret, resize, touch, user select, will change
+  scroll?: TailwindClass;
+  pointer?: TailwindClass; // cursor, caret, resize, touch, user select, will change
 }
 
-export const Box: React.FC<BoxProps> = ({}) => {
-  return <div>New</div>;
+type TailwindPropsOnly<T> = {
+  [K in keyof T]: T[K] extends TailwindClass ? K : never;
+}[keyof T];
+
+const extractTailwindClasses = <T extends object>(props: T): string => {
+  const tailwindKeys = Object.keys(props).filter((key) => props[key as keyof T] as unknown as TailwindClass) as Array<
+    TailwindPropsOnly<T>
+  >;
+
+  const classes = tailwindKeys.map((key) => props[key]).join(' ');
+  return classes;
+};
+
+export const Box: React.FC<BoxProps> = (props) => {
+  const tailwindClasses = extractTailwindClasses(props);
+  const { children, ...restProps } = props;
+
+  return (
+    <div className={`${tailwindClasses}`} {...restProps}>
+      {children}
+    </div>
+  );
 };
