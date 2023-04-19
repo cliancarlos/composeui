@@ -4,28 +4,20 @@ import { tailwindClasses } from '../tailwindClasses';
 import { extractTailwindProps } from '../../utils/extractTailwindProps';
 
 interface BoxProps extends React.HTMLAttributes<HTMLDivElement>, tailwindClasses {
-  // outras props específicas para o componente Box
+  children?: React.ReactNode;
 }
 
-export const Box: React.FC<BoxProps> & {
-  Center: React.FC<BoxProps>;
-  Around: React.FC<BoxProps>;
-  Evenly: React.FC<BoxProps>;
-  Stack: React.FC<BoxProps>;
-  Row: React.FC<BoxProps>;
-  Wrap: React.FC<BoxProps>;
-  NoWrap: React.FC<BoxProps>;
-  Grow: React.FC<BoxProps>;
-  Shrink: React.FC<BoxProps>;
-} = (props) => {
+export default function Box(props: BoxProps) {
   const tailwindClasses = extractTailwindProps(props);
   const { children, ...restProps } = props;
-  console.log(tailwindClasses);
 
-  return <div className={`flex flex-wrap flex-row ${tailwindClasses}`}>{children}</div>;
-};
-
-Box.Center = (props) => {
+  return (
+    <div className={`flex flex-wrap flex-row ${tailwindClasses}`} {...restProps}>
+      {children}
+    </div>
+  );
+}
+Box.Center = (props: BoxProps) => {
   const tailwindClasses = extractTailwindProps(props);
 
   const { children, ...restProps } = props;
@@ -33,56 +25,56 @@ Box.Center = (props) => {
   return <Box all={`justify-center items-center ${tailwindClasses}`}>{children}</Box>;
 };
 
-Box.Around = (props) => {
+Box.Around = (props: BoxProps) => {
   const tailwindClasses = extractTailwindProps(props);
   const { children, ...restProps } = props;
 
   return <Box all={`justify-around items-center ${tailwindClasses}`}>{children}</Box>;
 };
 
-Box.Evenly = (props) => {
+Box.Evenly = (props: BoxProps) => {
   const tailwindClasses = extractTailwindProps(props);
   const { children, ...restProps } = props;
 
   return <Box all={`justify-evenly items-center ${tailwindClasses}`}>{children}</Box>;
 };
 
-Box.Stack = (props) => {
+Box.Stack = (props: BoxProps) => {
   const tailwindClasses = extractTailwindProps(props);
   const { children, ...restProps } = props;
 
   return <Box all={`flex-col ${tailwindClasses}`}>{children}</Box>;
 };
 
-Box.NoWrap = (props) => {
+Box.NoWrap = (props: BoxProps) => {
   const tailwindClasses = extractTailwindProps(props);
   const { children, ...restProps } = props;
 
   return <Box all={`flex-nowrap ${tailwindClasses}`}>{children}</Box>;
 };
 
-Box.Wrap = (props) => {
+Box.Wrap = (props: BoxProps) => {
   const tailwindClasses = extractTailwindProps(props);
   const { children, ...restProps } = props;
 
   return <Box all={`flex-wrap ${tailwindClasses}`}>{children}</Box>;
 };
 
-Box.Grow = (props) => {
+Box.Grow = (props: BoxProps) => {
   const tailwindClasses = extractTailwindProps(props);
   const { children, ...restProps } = props;
 
   return <Box all={`flex-grow ${tailwindClasses}`}>{children}</Box>;
 };
 
-Box.Shrink = (props) => {
+Box.Shrink = (props: BoxProps) => {
   const tailwindClasses = extractTailwindProps(props);
   const { children, ...restProps } = props;
 
   return <Box all={`flex-shrink ${tailwindClasses}`}>{children}</Box>;
 };
 
-Box.Between = (props) => {
+Box.Between = (props: BoxProps) => {
   const tailwindClasses = extractTailwindProps(props);
   const { children, ...restProps } = props;
 
