@@ -8,7 +8,7 @@ interface BoxProps extends React.HTMLAttributes<HTMLDivElement>, tailwindClasses
 
 const extractTailwindClasses = <T extends object>(props: T): string => {
   const tailwindKeys = Object.keys(props).filter((key) =>
-    (props[key as keyof T] as unknown as TailwindClass) ? typeof props[key as keyof T] === 'string' : false,
+    (props[key as keyof T] as unknown as 'TailwindClass') ? typeof props[key as keyof T] === 'string' : false,
   ) as Array<TailwindPropsOnly<T>>;
 
   const classes = tailwindKeys

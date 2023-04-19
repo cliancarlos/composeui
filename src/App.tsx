@@ -1,4 +1,5 @@
 import { Box } from './components/Box';
+import Text from './components/Text';
 
 export default function App(): any {
   return (
@@ -15,7 +16,10 @@ export default function App(): any {
               margin="mx-0.5 my-0.5"
             >
               <Box.Stack>
-                <div className="text-sm font-medium text-gray-400 my-2">Summary</div>
+                <div className="text-sm font-medium text-gray-400 my-2">
+                  Summary
+                  <Text />
+                </div>
                 <Box.Center>
                   <div className="text-3xl font-bold text-gray-200">15k</div>
                   <Box.Between
