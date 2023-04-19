@@ -1,28 +1,37 @@
 import React from 'react';
 
-type ComponentWithVariants<T, P> = React.FC<P> & {
-  [key: string]: React.FC<P>;
-};
-
-interface CreateVariantsProps<T, P> {
-  component: React.FC<P>;
-  propName: keyof P;
-  variants: ReadonlyArray<T>;
+interface VariantComponentProps<ComponentProps, Variant> {
+  component: React.ComponentType<ComponentProps>;
+  propName: keyof ComponentProps;
+  variants: ReadonlyArray<Variant>;
 }
 
-export function createVariants<T, P extends Record<string, any>>({
-  component: Component,
-  propName,
-  variants,
-}: CreateVariantsProps<T, P>): ComponentWithVariants<T, P> {
-  const ComponentWithVariants = Component as ComponentWithVariants<T, P>;
-
-  const createVariant = (variantValue: T) => {
-    return (props: P) => <Component {...{ [propName]: variantValue }} {...props} />;
+function createVariantComponent<ComponentProps, Variant>(
+  variant: Variant,
+  propName: keyof ComponentProps,
+  Component: React.ComponentType<ComponentProps>,
+): React.ComponentType<ComponentProps> {
+  return (props: ComponentProps) => {
+    const newProps = { ...props, [propName]: variant };
+    return React.createElement(Component, newProps);
   };
+}
 
-  variants.forEach((variantValue) => {
-    ComponentWithVariants[variantValue as any] = createVariant(variantValue);
+export function createVariants<Props extends Record<string, any>, Variant>(
+  options: VariantComponentProps<Props, Variant>,
+): React.ComponentType<Props> & {
+  [key: string]: React.ComponentType<Props>;
+} {
+  const { component, propName, variants } = options;
+  const ComponentWithVariants = component as
+    | React.ComponentType<Props>
+    | {
+        [key: string]: React.ComponentType<Props>;
+      };
+
+  variants.forEach((variant) => {
+    const variantName = variant as unknown as string;
+    ComponentWithVariants[variantName] = createVariantComponent(variant, propName, component);
   });
 
   return ComponentWithVariants;
