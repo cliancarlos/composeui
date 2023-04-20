@@ -1,30 +1,17 @@
-// src/components/Typography/Text.js
 import React from 'react';
-import { tailwindClasses } from '../tailwindClasses';
-import { createVariants } from '../../utils/createVariants';
-import { extractTailwindProps } from '../../utils/extractTailwindProps';
+import { createBaseComponent } from '../../utils/createBaseComponent';
 
-interface BaseTextProps extends React.HTMLAttributes<HTMLDivElement>, tailwindClasses {
-  type?: keyof JSX.IntrinsicElements;
-  children: React.ReactNode;
-}
+const textVariants = [
+  { variant: 'h1', classes: 'text-5xl font-bold', element: 'h1' },
+  { variant: 'h2', classes: 'text-4xl font-medium', element: 'h2' },
+  { variant: 'h3', classes: 'text-3xl italic', element: 'h3' },
+  { variant: 'h4', classes: 'text-2xl text-sm', element: 'h4' },
+  { variant: 'h5', classes: 'text-xl font-bold', element: 'h5' },
+  { variant: 'h6', classes: 'text-lg font-medium text-sm', element: 'h6' },
+  { variant: 'label', classes: 'text-base text-blue-600', element: 'label' },
+  { variant: 'default', classes: 'text-base text-blue-600', element: 'p' },
+];
 
-const BaseText: React.FC<BaseTextProps> = ({ type = 'span', children, ...props }) => {
-  const tailwindClasses = extractTailwindProps(props);
-  const Component = type;
-  return (
-    <Component className={`${tailwindClasses}`} {...props}>
-      {children}
-    </Component>
-  );
-};
-
-const headingTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'label'] as const;
-
-const Text = createVariants<typeof headingTags[number], BaseTextProps>({
-  component: BaseText,
-  propName: 'type',
-  variants: headingTags,
-});
+const Text = createBaseComponent(textVariants);
 
 export default Text;
