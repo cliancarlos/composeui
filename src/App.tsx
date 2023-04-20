@@ -1,4 +1,7 @@
+import DarkModeSwitch from './DarkModeSwitch';
+
 import Box from './components/Box';
+import Button from './components/Button';
 import Text from './components/Text';
 
 const data = [
@@ -31,27 +34,20 @@ const data = [
 export default function App(): any {
   return (
     <>
-      <Text color="text-red-600">default</Text>
-      <Text variant="h1">h1</Text>
-      <Text.h1>h1</Text.h1>
-      <Text variant="h2">h2</Text>
-      <Text.h2>h2</Text.h2>
-      <Text variant="h3">h3</Text>
-      <Text.h3>h3</Text.h3>
-
-      <Text variant="h4">h4</Text>
-      <Text.h4>h4</Text.h4>
-      <Text variant="h5">h5</Text>
-      <Text.h5>h5</Text.h5>
-      <Text variant="h6">h6</Text>
-      <Text.h6>h6</Text.h6>
-      <br />
-      <Text variant="label">label</Text>
-      <br />
-      <Text.label>label</Text.label>
-
-      {/* <Box size="w-full">
-        <Box.Center bg="bg-gray-800" padding="p-4" size="w-full h-screen ">
+      <div>
+        <DarkModeSwitch />
+      </div>
+      <Box>
+        <Button bg="dark:bg-purple-800 bg-slate-200">Default</Button>
+        <Button variant="alternative">Alternative</Button>
+        <Button variant="dark">Dark</Button>
+        <Button variant="light">Light</Button>
+        <Button variant="green">Green</Button>
+        <Button variant="red">Red</Button>
+        <Button variant="yellow">Yellow</Button>
+      </Box>
+      <Box size="w-full">
+        <Box.Center bg="bg-gray-800" padding="p-4" size="w-full h-screen">
           <Box.Stack flex="md:flex-row">
             {data.map(({ label, qntd, percentage, date }) => {
               return (
@@ -68,7 +64,7 @@ export default function App(): any {
                     <Text.label size="text-sm" weight="font-medium" color="text-gray-400" margin="my-2">
                       {label}
                     </Text.label>
-                    <Text variant="h1">h1</Text>
+
                     <Box.Center>
                       <Text size="text-3xl" weight="font-bold" color="text-gray-200">
                         {qntd}
@@ -92,7 +88,7 @@ export default function App(): any {
             })}
           </Box.Stack>
         </Box.Center>
-      </Box> */}
+      </Box>
     </>
   );
 }
