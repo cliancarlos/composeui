@@ -1,38 +1,33 @@
 import React from 'react';
 
-interface VariantComponentProps<ComponentProps, Variant> {
-  component: React.ComponentType<ComponentProps>;
-  propName: keyof ComponentProps;
-  variants: ReadonlyArray<Variant>;
+import { extractTailwindProps } from './extractTailwindProps';
+
+export interface VariantConfig {
+  variant: string;
+  classes: string;
+  element: keyof JSX.IntrinsicElements;
+  props?: React.HTMLAttributes<HTMLElement>;
 }
 
-function createVariantComponent<ComponentProps, Variant>(
-  variant: Variant,
-  propName: keyof ComponentProps,
-  Component: React.ComponentType<ComponentProps>,
-): React.ComponentType<ComponentProps> {
-  return (props: ComponentProps) => {
-    const newProps = { ...props, [propName]: variant };
-    return React.createElement(Component, newProps);
-  };
-}
+var i = 0;
 
-export function createVariants<Props extends Record<string, any>, Variant>(
-  options: VariantComponentProps<Props, Variant>,
-): React.ComponentType<Props> & {
-  [key: string]: React.ComponentType<Props>;
-} {
-  const { component, propName, variants } = options;
-  const ComponentWithVariants = component as
-    | React.ComponentType<Props>
-    | {
-        [key: string]: React.ComponentType<Props>;
-      };
+type Variants = {
+  [key: string]: React.FC<React.HTMLAttributes<HTMLElement>>;
+};
 
-  variants.forEach((variant) => {
-    const variantName = variant as unknown as string;
-    ComponentWithVariants[variantName] = createVariantComponent(variant, propName, component);
+export function createVariants(config: VariantConfig[]): Variants {
+  const components: Variants = {};
+
+  config.forEach(({ variant, classes, element, props }) => {
+    const Component: React.FC<React.HTMLAttributes<HTMLElement>> = ({ children, className, ...props }) => {
+      const twClassesInProps = extractTailwindProps(props);
+      const combinedClassName = `${twClassesInProps} ${className || ''} ${classes}  `.trim();
+
+      return React.createElement(element, { className: combinedClassName, ...props }, children);
+    };
+
+    components[variant] = Component;
   });
 
-  return ComponentWithVariants;
+  return components;
 }
