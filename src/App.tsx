@@ -37,6 +37,7 @@ export default function App(): any {
       <div>
         <DarkModeSwitch />
       </div>
+      <Box twClasses="w-16 h-16 text-white dark:text-black dark:bg-purple-800 bg-slate-200">Teste</Box>
       <Box>
         <Button bg="dark:bg-purple-800 bg-slate-200">Default</Button>
         <Button variant="alternative">Alternative</Button>
